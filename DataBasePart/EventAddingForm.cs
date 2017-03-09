@@ -10,16 +10,16 @@ using System.Windows.Forms;
 
 namespace DataBasePart
 {
-    public partial class MainBaseInterfaceForm : Form
+    public partial class EventAddingForm : Form
     {
-        public MainBaseInterfaceForm()
+        public EventAddingForm()
         {
             InitializeComponent();
         }
 
-        private void событиеToolStripMenuItem_Click(object sender, EventArgs e)
+        private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            
+
         }
     }
 }

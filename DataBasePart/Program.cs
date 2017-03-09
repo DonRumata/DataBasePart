@@ -8,15 +8,18 @@ namespace DataBasePart
 {
     static class Program
     {
+        public static ApplicationContext NowUsingForm;
         /// <summary>
         /// Главная точка входа для приложения.
         /// </summary>
         [STAThread]
         static void Main()
         {
+            
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            NowUsingForm = new ApplicationContext(new Form1());
+            Application.Run(NowUsingForm);
         }
     }
 }
