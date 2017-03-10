@@ -11,6 +11,7 @@ using System.Linq.Expressions;
 
 namespace ModelMVPDataBasePart
 {
+    #region LINQ_Definitions
     [Table(Name = "EventBase")]
     public class EventDB
     {
@@ -63,8 +64,16 @@ namespace ModelMVPDataBasePart
 
         }
     }
+    #endregion
 
-    public class DataBaseOperationClass
+    public interface IDataBaseOperation
+    {
+        bool CreateConnection(string Login, string Pass, byte TypeOfConnection);
+        bool TestConnection();
+        void AddEvent(string EventName, DateTime[] InDateTime);
+    }
+
+    public class DataBaseOperationClass:IDataBaseOperation
     {
         public static SqlConnection Connect { get; private set; }
         public static DataContext DataBase { get; private set; }
@@ -94,7 +103,7 @@ namespace ModelMVPDataBasePart
             else return false;
         }
 
-        public static bool TestConnection()
+        public bool TestConnection()
         {
             try
             {

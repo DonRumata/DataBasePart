@@ -47,12 +47,6 @@
     <Compile Include="IPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ViewMVPLibrary\ViewMVPLibrary.csproj">
-      <Project>{87bfb610-5aa0-426e-b3fc-f911ed740ccf}</Project>
-      <Name>ViewMVPLibrary</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

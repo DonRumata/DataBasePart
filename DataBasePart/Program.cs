@@ -18,7 +18,7 @@ namespace DataBasePart
             
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            NowUsingForm = new ApplicationContext(new Form1());
+            NowUsingForm = new ApplicationContext(new LoginForm());
             Application.Run(NowUsingForm);
         }
     }
