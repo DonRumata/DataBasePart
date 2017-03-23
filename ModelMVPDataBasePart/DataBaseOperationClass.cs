@@ -4,81 +4,33 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
-using System.Data.Linq;
-using System.Data.Linq.SqlClient;
-using System.Data.Linq.Mapping;
 using System.Linq.Expressions;
+using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 
 namespace ModelMVPDataBasePart
 {
-    #region LINQ_Definitions
-    [Table(Name = "EventBase")]
-    public class EventDB
-    {
-        [Column(IsPrimaryKey =true,IsDbGenerated =true,DbType ="Decimal(18,0) NOT NULL IDENTITY",Storage ="EventID")]
-        private int EventID { get; set; }
-        [Column(Name ="EventName",DbType ="NVarChar(50)", Storage ="EventID")]
-        private string EventName { get; set; }
-        [Association(Name = "FK_EventTimeTable_EventBase",Storage ="_ChildEventTimeObjects",ThisKey ="EventID", OtherKey ="EventID",DeleteRule ="CASCADE")]
-        private EntitySet<EventTimeSubject> _ChildEventTimeObjects;
-        public EventDB(string InName)
-        {
-            EventName = InName;
-        }
-    }
-
-    [Table(Name ="EventTimeTable")]
-    public class EventTimeSubject
-    {
-        [Column(IsPrimaryKey =true,Name ="EventID",DbType ="Decima(18,0) NOT NULL",Storage ="EventID")]
-        private int EventID { get; set; }
-        [Column(IsPrimaryKey =true,DbType = "SmallDateTime NOT NULL", Storage ="EventDateTime")]
-        private DateTime EventDateTime { get; set; }
-        [Column(DbType = "Decimal(10,0)", Storage = "HowLongToRemind")]
-        private Nullable<int> HowLongToRemind { get; set; }
-        [Column(DbType ="Time(0)",Storage ="RemindBefore")]
-        private Nullable<TimeSpan> RemindBefore { get; set; }
-        [Column(DbType ="Decimal(3,0)",Storage ="TypeOfRemind")]
-        private Nullable<int> TypeOfRemind { get; set; }
-        [Column(IsPrimaryKey =true,Storage ="UserID")]//Неизвестный тип юзера
-        private int UserID { get; set; }
-        [Column(DbType ="Time(0)",Storage ="EventDuration")]
-        private Nullable<TimeSpan> EventDuration { get; set; }
-        [Column(DbType ="Decima(1,0)",Storage ="EveryWhatRemind")]
-        private Nullable<byte> EveryWhatRemind { get; set; }
-        [Association(Name = "FK_EventTimeTable_EventBase", Storage = "_ParentEventDB", ThisKey = "EventID", OtherKey = "EventID", IsForeignKey = true, DeleteOnNull = true)]
-        private EventDB _ParentEventDB { get; set; }
-
-        public EventTimeSubject(DateTime DateTimeEvent, Nullable<int> HowLongToRem, Nullable<TimeSpan> RemindBef, Nullable<int>TypeOfRem, int UserD, Nullable<TimeSpan> EventDurat, Nullable<byte>EveryWhatRem)
-        {
-            EventDateTime = DateTimeEvent;
-            HowLongToRemind = HowLongToRem;
-            RemindBefore = RemindBef;
-            TypeOfRemind = TypeOfRem;
-            EventDuration = EventDurat;
-            EveryWhatRemind = EveryWhatRem;
-        }
-
-        public void UpdateAnySubject(DateTime DateTimeEvent, Nullable<int> HowLongToRem, Nullable<TimeSpan> RemindBef, Nullable<int> TypeOfRem, int UserD, Nullable<TimeSpan> EventDurat, Nullable<byte> EveryWhatRem)
-        {
-
-        }
-    }
-    #endregion
-
     public interface IDataBaseOperation
     {
         bool CreateConnection(string Login, string Pass, byte TypeOfConnection);
         bool TestConnection();
-        void AddEvent(string EventName, DateTime[] InDateTime);
+        void AddEvent(string EventName);
+        void AddEventsFromEventCreator(List<EventDateCreator> InList);
     }
 
     public class DataBaseOperationClass:IDataBaseOperation
     {
         public static SqlConnection Connect { get; private set; }
-        public static DataContext DataBase { get; private set; }
-        private Table<EventDB> EventTable { get; set; }
-        private Table<EventTimeSubject> EventTimeTable { get; set; }
+        public static ArcheageDataBaseEntities DataBaseECont { get; private set; }
+        private static DbSet<EventBase> EventTable { get; set; }
+        private static DbSet<EventTimeTable> EventTimeTable { get; set; }
+
+
+        //private Func<ArcheageDataBaseEntities, string, DateTime, bool> ContainsData = CompiledQuery.Compile<ArcheageDataBaseEntities,string, DateTime, bool>((MyB, InName, InData) => (MyB.EventTimeTable.Any(n => (n.EventBase.EventName == InName && n.EventDateTime == InData))));
+        //private Func<ArcheageDataBaseEntities, string, IEnumerable<EventDateCreator>, bool> Compl = CompiledQuery.Compile<ArcheageDataBaseEntities, string, IEnumerable<EventDateCreator>, IEnumerable<bool>>((Myb, InName, InEnum) => (Myb.EventTimeTable.Any(n => (n.EventBase.EventName == InName && n.EventDateTime == InEnum.First().EventDate))) );
+
+
+
         public DataBaseOperationClass()
         {
             Connect = new SqlConnection();
@@ -97,7 +49,7 @@ namespace ModelMVPDataBasePart
             }
             if (TestConnection())
             {
-                DataBase = new DataContext(Connect.ConnectionString);
+                //DataBase = new DataContext(Connect.ConnectionString);
                 return true;
             }
             else return false;
@@ -114,16 +66,56 @@ namespace ModelMVPDataBasePart
             catch { return false; }
         }
 
-        public void AddEvent(string EventName, DateTime[] InDateTime)
+        public void AddEventsFromEventCreator(List<EventDateCreator>Inlist)
         {
             Connect.Open();
-            DataBase.GetTable<EventDB>().InsertOnSubmit(new EventDB(EventName));
-            DataBase.SubmitChanges();
+            DataBaseECont.EventBase.Add(new EventBase { EventName = Inlist.First().EventName, EventTimeTable = CollectionFromEventDateCreator(Inlist)}); //ВЫбрать между этим или Foreach ниже
+            foreach(EventDateCreator DT in Inlist)
+            {
+                DataBaseECont.EventTimeTable.Add(new EventTimeTable { EventDateTime = DT.EventDate, EventID = DataBaseECont.EventBase.Local.Last().EventID, UserID = (short)DataBaseECont.GetNowUserID().FirstOrDefault(), EverywhatRemind = DT.RemindEvery });
+            }
+            DataBaseECont.SaveChanges();
+            Connect.Close();
+        }
+
+        private ICollection<EventTimeTable> CollectionFromEventDateCreator(List<EventDateCreator> InList)
+        {
+            List<EventTimeTable> Result = new List<EventTimeTable>();
+            foreach(EventDateCreator DT in InList)
+            {
+                Result.Add(new EventTimeTable { EventDateTime = DT.EventDate, UserID = (short)DataBaseECont.GetNowUserID().FirstOrDefault(), EverywhatRemind = DT.RemindEvery });
+            }
+            return Result;
+        }
+
+        public void AddEvent(string EventNam)
+        {
+            Connect.Open();
+            DataBaseECont.EventBase.Add(new EventBase { EventName = EventNam });
+            DataBaseECont.SaveChanges();
+            Connect.Close();
+        }
+
+        public void AddReminder()
+        {
+            Connect.Open();
         }
 
         public static void GetTypeOfConnection()
         {
 
+        }
+
+        
+
+        private bool CheckDataForEventAdding(string InName, IEnumerable<EventDateCreator> InBaseDatas)
+        {
+            foreach (EventDateCreator T in InBaseDatas)
+            {
+                if (DataBaseECont.EventTimeTable.Any(n => (n.EventBase.EventName == InName) && (n.EventDateTime == T.EventDate)))
+                    return false;           
+            }
+            return true;
         }
     }
 }

@@ -10,16 +10,20 @@ using System.Windows.Forms;
 
 namespace DataBasePart
 {
+
+    public interface IMainBaseView
+    {
+        object NowDataSource { get; set; }
+
+        event EventHandler EventAddingClick;
+        event EventHandler RemindAddingClick;
+    }
+
     public partial class MainBaseInterfaceForm : Form
     {
         public MainBaseInterfaceForm()
         {
             InitializeComponent();
-        }
-
-        private void событиеToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            
         }
     }
 }

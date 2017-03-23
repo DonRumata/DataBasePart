@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище ArcheageDataBaseModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="EventBase">
+          <Key>
+            <PropertyRef Name="EventID" />
+          </Key>
+          <Property Name="EventID" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EventName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="EventTimeTable">
+          <Key>
+            <PropertyRef Name="EventID" />
+            <PropertyRef Name="EventDateTime" />
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="EventID" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="EventDateTime" Type="smalldatetime" Nullable="false" />
+          <Property Name="HowLongToRemind" Type="numeric" Precision="10" Scale="0" />
+          <Property Name="RemindBefore" Type="time" Precision="0" />
+          <Property Name="TypeOfRemind" Type="numeric" Precision="3" Scale="0" />
+          <Property Name="UserID" Type="smallint" Nullable="false" />
+          <Property Name="EventDuration" Type="time" Precision="0" />
+          <Property Name="EverywhatRemind" Type="numeric" Precision="1" Scale="0" />
+        </EntityType>
+        <Association Name="FK_EventTimeTable_EventBase">
+          <End Role="EventBase" Type="Self.EventBase" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="EventTimeTable" Type="Self.EventTimeTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EventBase">
+              <PropertyRef Name="EventID" />
+            </Principal>
+            <Dependent Role="EventTimeTable">
+              <PropertyRef Name="EventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="CheckUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="InResulter" Type="bit" Mode="InOut" />
+          <Parameter Name="InName" Type="nvarchar" Mode="In" />
+          <Parameter Name="InPass" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="GetNowUserID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="Хранилище ArcheageDataBaseModelContainer">
+          <EntitySet Name="EventBase" EntityType="Self.EventBase" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EventTimeTable" EntityType="Self.EventTimeTable" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_EventTimeTable_EventBase" Association="Self.FK_EventTimeTable_EventBase">
+            <End Role="EventBase" EntitySet="EventBase" />
+            <End Role="EventTimeTable" EntitySet="EventTimeTable" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ArcheageDataBaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="EventBase">
+          <Key>
+            <PropertyRef Name="EventID" />
+          </Key>
+          <Property Name="EventID" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EventName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="EventTimeTable" Relationship="Self.FK_EventTimeTable_EventBase" FromRole="EventBase" ToRole="EventTimeTable" />
+        </EntityType>
+        <EntityType Name="EventTimeTable">
+          <Key>
+            <PropertyRef Name="EventID" />
+            <PropertyRef Name="EventDateTime" />
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="EventID" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="EventDateTime" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="HowLongToRemind" Type="Decimal" Precision="10" Scale="0" />
+          <Property Name="RemindBefore" Type="Time" Precision="0" />
+          <Property Name="TypeOfRemind" Type="Decimal" Precision="3" Scale="0" />
+          <Property Name="UserID" Type="Int16" Nullable="false" />
+          <Property Name="EventDuration" Type="Time" Precision="0" />
+          <Property Name="EverywhatRemind" Type="Decimal" Precision="1" Scale="0" />
+          <NavigationProperty Name="EventBase" Relationship="Self.FK_EventTimeTable_EventBase" FromRole="EventTimeTable" ToRole="EventBase" />
+        </EntityType>
+        <Association Name="FK_EventTimeTable_EventBase">
+          <End Role="EventBase" Type="Self.EventBase" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="EventTimeTable" Type="Self.EventTimeTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EventBase">
+              <PropertyRef Name="EventID" />
+            </Principal>
+            <Dependent Role="EventTimeTable">
+              <PropertyRef Name="EventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ArcheageDataBaseEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="EventBase" EntityType="Self.EventBase" />
+          <EntitySet Name="EventTimeTable" EntityType="Self.EventTimeTable" />
+          <AssociationSet Name="FK_EventTimeTable_EventBase" Association="Self.FK_EventTimeTable_EventBase">
+            <End Role="EventBase" EntitySet="EventBase" />
+            <End Role="EventTimeTable" EntitySet="EventTimeTable" />
+          </AssociationSet>
+          <FunctionImport Name="CheckUser">
+            <Parameter Name="InResulter" Mode="InOut" Type="Boolean" />
+            <Parameter Name="InName" Mode="In" Type="String" />
+            <Parameter Name="InPass" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetNowUserID" ReturnType="Collection(Int32)" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище ArcheageDataBaseModelContainer" CdmEntityContainer="ArcheageDataBaseEntities">
+          <EntitySetMapping Name="EventBase">
+            <EntityTypeMapping TypeName="ArcheageDataBaseModel.EventBase">
+              <MappingFragment StoreEntitySet="EventBase">
+                <ScalarProperty Name="EventID" ColumnName="EventID" />
+                <ScalarProperty Name="EventName" ColumnName="EventName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EventTimeTable">
+            <EntityTypeMapping TypeName="ArcheageDataBaseModel.EventTimeTable">
+              <MappingFragment StoreEntitySet="EventTimeTable">
+                <ScalarProperty Name="EventID" ColumnName="EventID" />
+                <ScalarProperty Name="EventDateTime" ColumnName="EventDateTime" />
+                <ScalarProperty Name="HowLongToRemind" ColumnName="HowLongToRemind" />
+                <ScalarProperty Name="RemindBefore" ColumnName="RemindBefore" />
+                <ScalarProperty Name="TypeOfRemind" ColumnName="TypeOfRemind" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="EventDuration" ColumnName="EventDuration" />
+                <ScalarProperty Name="EverywhatRemind" ColumnName="EverywhatRemind" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="CheckUser" FunctionName="Хранилище ArcheageDataBaseModel.CheckUser" />
+          <FunctionImportMapping FunctionImportName="GetNowUserID" FunctionName="Хранилище ArcheageDataBaseModel.GetNowUserID" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

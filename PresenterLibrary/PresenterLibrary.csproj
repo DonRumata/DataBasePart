@@ -47,6 +47,16 @@
     <Compile Include="IPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataBasePart\DataBasePart.csproj">
+      <Project>{163d5d87-8804-439a-b7ba-fe3028c3a1ea}</Project>
+      <Name>DataBasePart</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ModelMVPDataBasePart\ModelMVPDataBasePart.csproj">
+      <Project>{6539f1e3-d4ef-4c38-bd73-2ebd48a36f4f}</Project>
+      <Name>ModelMVPDataBasePart</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
