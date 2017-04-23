@@ -55,29 +55,40 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArchDataBaseModel.Context.cs">
+    <Compile Include="ArchDataBase.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ArchDataBaseModel.Context.tt</DependentUpon>
+      <DependentUpon>ArchDataBase.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="ArchDataBaseModel.cs">
+    <Compile Include="ArchDataBase.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ArchDataBaseModel.tt</DependentUpon>
+      <DependentUpon>ArchDataBase.tt</DependentUpon>
     </Compile>
-    <Compile Include="ArchDataBaseModel.Designer.cs">
+    <Compile Include="ArchDataBase.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ArchDataBaseModel.edmx</DependentUpon>
+      <DependentUpon>ArchDataBase.edmx</DependentUpon>
     </Compile>
-    <Compile Include="DataBaseOperationClass.cs" />
-    <Compile Include="EventAddingFormModel.cs" />
+    <Compile Include="Common\EventDataCreator.cs" />
+    <Compile Include="Common\DataBaseOperationClass.cs" />
+    <Compile Include="Common\RemindDataCreator.cs" />
     <Compile Include="EventBase.cs">
-      <DependentUpon>ArchDataBaseModel.tt</DependentUpon>
+      <DependentUpon>ArchDataBase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EventRemindTable.cs">
+      <DependentUpon>ArchDataBase.tt</DependentUpon>
     </Compile>
     <Compile Include="EventTimeTable.cs">
-      <DependentUpon>ArchDataBaseModel.tt</DependentUpon>
+      <DependentUpon>ArchDataBase.tt</DependentUpon>
     </Compile>
+    <Compile Include="IModels\IEventAddingModel.cs" />
+    <Compile Include="IModels\ILoginService.cs" />
+    <Compile Include="IModels\IMainIModel.cs" />
+    <Compile Include="IModels\IRemindAddingModel.cs" />
+    <Compile Include="Models\EventAddingModel.cs" />
+    <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\RemindAddingModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -85,28 +96,26 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EntityDeploy Include="ArchDataBaseModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ArchDataBaseModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="App.Config" />
-    <None Include="ArchDataBaseModel.edmx.diagram">
-      <DependentUpon>ArchDataBaseModel.edmx</DependentUpon>
+    <EntityDeploy Include="ArchDataBase.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ArchDataBase.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="ArchDataBase.edmx.diagram">
+      <DependentUpon>ArchDataBase.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ArchDataBaseModel.Context.tt">
+    <Content Include="ArchDataBase.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ArchDataBaseModel.Context.cs</LastGenOutput>
-      <DependentUpon>ArchDataBaseModel.edmx</DependentUpon>
+      <DependentUpon>ArchDataBase.edmx</DependentUpon>
+      <LastGenOutput>ArchDataBase.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="ArchDataBaseModel.tt">
+    <Content Include="ArchDataBase.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ArchDataBaseModel.edmx</DependentUpon>
-      <LastGenOutput>ArchDataBaseModel.cs</LastGenOutput>
+      <DependentUpon>ArchDataBase.edmx</DependentUpon>
+      <LastGenOutput>ArchDataBase.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

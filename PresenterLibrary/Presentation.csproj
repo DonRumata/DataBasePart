@@ -36,6 +36,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,17 +45,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IPresenter.cs" />
+    <Compile Include="Common\ApplicationController.cs" />
+    <Compile Include="Common\ArgDepositer.cs" />
+    <Compile Include="Common\BasePresenter.cs" />
+    <Compile Include="Common\IApplicationController.cs" />
+    <Compile Include="Common\IContainer.cs" />
+    <Compile Include="Common\IPresenter.cs" />
+    <Compile Include="Common\IView.cs" />
+    <Compile Include="Presenters\AddingEventPresenter.cs" />
+    <Compile Include="Presenters\LoginPresenter.cs" />
+    <Compile Include="Presenters\MainInterfacePresenter.cs" />
+    <Compile Include="Presenters\ReminderAddingPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\IAddingEventView.cs" />
+    <Compile Include="Views\ILoginView.cs" />
+    <Compile Include="Views\IMainView.cs" />
+    <Compile Include="Views\IRemindAddingView.cs" />
+    <Compile Include="Views\ViewEnums.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DataBasePart\DataBasePart.csproj">
-      <Project>{163d5d87-8804-439a-b7ba-fe3028c3a1ea}</Project>
-      <Name>DataBasePart</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ModelMVPDataBasePart\ModelMVPDataBasePart.csproj">
+    <ProjectReference Include="..\ModelMVPDataBasePart\Model.csproj">
       <Project>{6539f1e3-d4ef-4c38-bd73-2ebd48a36f4f}</Project>
-      <Name>ModelMVPDataBasePart</Name>
+      <Name>Model</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

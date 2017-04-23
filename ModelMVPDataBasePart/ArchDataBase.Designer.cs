@@ -1,4 +1,4 @@
-﻿// Создание кода T4 для модели "C:\Users\don_k\Documents\Visual Studio 2015\Projects\DataBasePart\ModelMVPDataBasePart\ArchDataBaseModel.edmx" включено. 
+﻿// Создание кода T4 для модели "C:\Users\don_k\Documents\Visual Studio 2015\Projects\DataBasePart\ModelMVPDataBasePart\ArchDataBase.edmx" включено. 
 // Чтобы включить формирование кода прежних версий, измените значение свойства "Стратегия создания кода" конструктора
 // на "Legacy ObjectContext". Это свойство доступно в окне "Свойства", если модель
 // открыта в конструкторе.

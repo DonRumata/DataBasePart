@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataBasePart", "DataBasePart\DataBasePart.csproj", "{163D5D87-8804-439A-B7BA-FE3028C3A1EA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI", "DataBasePart\UI.csproj", "{163D5D87-8804-439A-B7BA-FE3028C3A1EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PresenterLibrary", "PresenterLibrary\PresenterLibrary.csproj", "{2C3E6C39-8363-4482-B160-3401A1C83059}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation", "PresenterLibrary\Presentation.csproj", "{2C3E6C39-8363-4482-B160-3401A1C83059}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelMVPDataBasePart", "ModelMVPDataBasePart\ModelMVPDataBasePart.csproj", "{6539F1E3-D4EF-4C38-BD73-2EBD48A36F4F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "ModelMVPDataBasePart\Model.csproj", "{6539F1E3-D4EF-4C38-BD73-2EBD48A36F4F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

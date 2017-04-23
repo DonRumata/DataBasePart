@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.EventNameBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.AddTimeButton = new System.Windows.Forms.Button();
@@ -49,17 +48,19 @@
             this.TimeListView = new System.Windows.Forms.ListView();
             this.EventDate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.EventRepeat = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.mainBaseInterfaceFormBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.Durate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.EventDurationMask = new System.Windows.Forms.MaskedTextBox();
+            this.EventDurationCheckBox = new System.Windows.Forms.CheckBox();
+            this.DateTimeHappensT = new System.Windows.Forms.DateTimePicker();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.mainBaseInterfaceFormBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // EventNameBox
             // 
             this.EventNameBox.Location = new System.Drawing.Point(85, 12);
             this.EventNameBox.Name = "EventNameBox";
-            this.EventNameBox.Size = new System.Drawing.Size(438, 20);
+            this.EventNameBox.Size = new System.Drawing.Size(513, 20);
             this.EventNameBox.TabIndex = 0;
             // 
             // label1
@@ -73,20 +74,18 @@
             // 
             // AddTimeButton
             // 
-            this.AddTimeButton.Enabled = false;
-            this.AddTimeButton.Location = new System.Drawing.Point(262, 65);
+            this.AddTimeButton.Location = new System.Drawing.Point(337, 63);
             this.AddTimeButton.Name = "AddTimeButton";
-            this.AddTimeButton.Size = new System.Drawing.Size(34, 44);
+            this.AddTimeButton.Size = new System.Drawing.Size(34, 68);
             this.AddTimeButton.TabIndex = 3;
             this.AddTimeButton.Text = ">>";
             this.AddTimeButton.UseVisualStyleBackColor = true;
-            this.AddTimeButton.Click += new System.EventHandler(this.AddTimeButton_Click);
             // 
             // DateTimeHappens
             // 
             this.DateTimeHappens.Enabled = false;
             this.DateTimeHappens.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.DateTimeHappens.Location = new System.Drawing.Point(155, 89);
+            this.DateTimeHappens.Location = new System.Drawing.Point(154, 88);
             this.DateTimeHappens.MinDate = new System.DateTime(2017, 3, 3, 0, 0, 0, 0);
             this.DateTimeHappens.Name = "DateTimeHappens";
             this.DateTimeHappens.Size = new System.Drawing.Size(85, 20);
@@ -103,6 +102,7 @@
             this.RadioBefore.TabStop = true;
             this.RadioBefore.Text = "Осталось до события";
             this.RadioBefore.UseVisualStyleBackColor = true;
+            this.RadioBefore.CheckedChanged += new System.EventHandler(this.RadioButtonChange);
             // 
             // RadioHappens
             // 
@@ -114,18 +114,19 @@
             this.RadioHappens.TabStop = true;
             this.RadioHappens.Text = "Событие произойдет в";
             this.RadioHappens.UseVisualStyleBackColor = true;
+            this.RadioHappens.CheckedChanged += new System.EventHandler(this.RadioButtonChange);
             // 
             // BeforeEventMask
             // 
             this.BeforeEventMask.Location = new System.Drawing.Point(155, 62);
             this.BeforeEventMask.Mask = "99:99:90";
             this.BeforeEventMask.Name = "BeforeEventMask";
-            this.BeforeEventMask.Size = new System.Drawing.Size(85, 20);
+            this.BeforeEventMask.Size = new System.Drawing.Size(172, 20);
             this.BeforeEventMask.TabIndex = 2;
             // 
             // AddRemindButton
             // 
-            this.AddRemindButton.Location = new System.Drawing.Point(383, 212);
+            this.AddRemindButton.Location = new System.Drawing.Point(458, 307);
             this.AddRemindButton.Name = "AddRemindButton";
             this.AddRemindButton.Size = new System.Drawing.Size(140, 23);
             this.AddRemindButton.TabIndex = 12;
@@ -134,7 +135,7 @@
             // 
             // SaveAndQuitButton
             // 
-            this.SaveAndQuitButton.Location = new System.Drawing.Point(383, 241);
+            this.SaveAndQuitButton.Location = new System.Drawing.Point(458, 336);
             this.SaveAndQuitButton.Name = "SaveAndQuitButton";
             this.SaveAndQuitButton.Size = new System.Drawing.Size(140, 23);
             this.SaveAndQuitButton.TabIndex = 13;
@@ -143,24 +144,22 @@
             // 
             // BackButton
             // 
-            this.BackButton.Location = new System.Drawing.Point(8, 241);
+            this.BackButton.Location = new System.Drawing.Point(8, 336);
             this.BackButton.Name = "BackButton";
             this.BackButton.Size = new System.Drawing.Size(75, 23);
             this.BackButton.TabIndex = 14;
             this.BackButton.Text = "Назад";
             this.BackButton.UseVisualStyleBackColor = true;
-            this.BackButton.Click += new System.EventHandler(this.BackButton_Click);
             // 
             // RemoveTimeButton
             // 
             this.RemoveTimeButton.Enabled = false;
-            this.RemoveTimeButton.Location = new System.Drawing.Point(262, 157);
+            this.RemoveTimeButton.Location = new System.Drawing.Point(337, 217);
             this.RemoveTimeButton.Name = "RemoveTimeButton";
-            this.RemoveTimeButton.Size = new System.Drawing.Size(34, 44);
+            this.RemoveTimeButton.Size = new System.Drawing.Size(34, 68);
             this.RemoveTimeButton.TabIndex = 11;
             this.RemoveTimeButton.Text = "<<";
             this.RemoveTimeButton.UseVisualStyleBackColor = true;
-            this.RemoveTimeButton.Click += new System.EventHandler(this.RemoveTimeButton_Click);
             // 
             // RadioWithoutRepeat
             // 
@@ -230,14 +229,15 @@
             // 
             this.TimeListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.EventDate,
-            this.EventRepeat});
+            this.EventRepeat,
+            this.Durate});
             this.TimeListView.FullRowSelect = true;
             this.TimeListView.GridLines = true;
             this.TimeListView.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.TimeListView.Location = new System.Drawing.Point(302, 56);
+            this.TimeListView.Location = new System.Drawing.Point(377, 56);
             this.TimeListView.MultiSelect = false;
             this.TimeListView.Name = "TimeListView";
-            this.TimeListView.Size = new System.Drawing.Size(221, 145);
+            this.TimeListView.Size = new System.Drawing.Size(221, 238);
             this.TimeListView.TabIndex = 19;
             this.TimeListView.UseCompatibleStateImageBehavior = false;
             this.TimeListView.View = System.Windows.Forms.View.List;
@@ -250,15 +250,47 @@
             // 
             this.EventRepeat.Text = "Повторение события";
             // 
-            // mainBaseInterfaceFormBindingSource
+            // Durate
             // 
-            this.mainBaseInterfaceFormBindingSource.DataSource = typeof(DataBasePart.MainBaseInterfaceForm);
+            this.Durate.Text = "Длится";
+            // 
+            // EventDurationMask
+            // 
+            this.EventDurationMask.Enabled = false;
+            this.EventDurationMask.Location = new System.Drawing.Point(154, 241);
+            this.EventDurationMask.Mask = "99:90";
+            this.EventDurationMask.Name = "EventDurationMask";
+            this.EventDurationMask.Size = new System.Drawing.Size(173, 20);
+            this.EventDurationMask.TabIndex = 21;
+            // 
+            // EventDurationCheckBox
+            // 
+            this.EventDurationCheckBox.AutoSize = true;
+            this.EventDurationCheckBox.Location = new System.Drawing.Point(8, 244);
+            this.EventDurationCheckBox.Name = "EventDurationCheckBox";
+            this.EventDurationCheckBox.Size = new System.Drawing.Size(64, 17);
+            this.EventDurationCheckBox.TabIndex = 22;
+            this.EventDurationCheckBox.Text = "Длится";
+            this.EventDurationCheckBox.UseVisualStyleBackColor = true;
+            this.EventDurationCheckBox.CheckedChanged += new System.EventHandler(this.EventDurationCheckBoxChange);
+            // 
+            // DateTimeHappensT
+            // 
+            this.DateTimeHappensT.Enabled = false;
+            this.DateTimeHappensT.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.DateTimeHappensT.Location = new System.Drawing.Point(247, 89);
+            this.DateTimeHappensT.Name = "DateTimeHappensT";
+            this.DateTimeHappensT.Size = new System.Drawing.Size(80, 20);
+            this.DateTimeHappensT.TabIndex = 24;
             // 
             // EventAddingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(537, 278);
+            this.ClientSize = new System.Drawing.Size(618, 365);
+            this.Controls.Add(this.DateTimeHappensT);
+            this.Controls.Add(this.EventDurationCheckBox);
+            this.Controls.Add(this.EventDurationMask);
             this.Controls.Add(this.TimeListView);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -277,7 +309,6 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.mainBaseInterfaceFormBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -305,6 +336,9 @@
         private System.Windows.Forms.ListView TimeListView;
         private System.Windows.Forms.ColumnHeader EventDate;
         private System.Windows.Forms.ColumnHeader EventRepeat;
-        private System.Windows.Forms.BindingSource mainBaseInterfaceFormBindingSource;
+        private System.Windows.Forms.ColumnHeader Durate;
+        private System.Windows.Forms.MaskedTextBox EventDurationMask;
+        private System.Windows.Forms.CheckBox EventDurationCheckBox;
+        private System.Windows.Forms.DateTimePicker DateTimeHappensT;
     }
 }

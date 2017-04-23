@@ -12,13 +12,13 @@ namespace ModelMVPDataBasePart
     using System;
     using System.Collections.Generic;
     
-    public partial class EventTimeTable
+    public partial class EventRemindTable
     {
+        public System.TimeSpan RemindBeforeAfter { get; set; }
+        public Nullable<decimal> TypeOfRemind { get; set; }
+        public Nullable<System.DateTime> DateUntilRemind { get; set; }
         public decimal EventID { get; set; }
-        public System.DateTime EventDateTime { get; set; }
         public short UserID { get; set; }
-        public Nullable<System.TimeSpan> EventDuration { get; set; }
-        public Nullable<decimal> EverywhatRemind { get; set; }
     
         public virtual EventBase EventBase { get; set; }
     }

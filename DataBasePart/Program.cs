@@ -3,23 +3,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using PresenterLibrary.Common;
+using PresenterLibrary.Views;
+using PresenterLibrary.Presenters;
+using ModelMVPDataBasePart.IModels;
+using ModelMVPDataBasePart.Models;
 
 namespace DataBasePart
 {
     static class Program
     {
-        public static ApplicationContext NowUsingForm;
+        public static readonly ApplicationContext NowUsingForm = new ApplicationContext();
         /// <summary>
         /// Главная точка входа для приложения.
         /// </summary>
-        [STAThread]
         static void Main()
         {
-            
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            NowUsingForm = new ApplicationContext(new LoginForm());
-            Application.Run(NowUsingForm);
+            var Controller = new ApplicationController(new LightInjectAdapter())
+                .RegisterView<ILoginView, LoginForm>()
+                .RegisterView<IMainView, MainBaseInterfaceForm>()
+                .RegisterView<IAddingEventView, EventAddingForm>()
+                .RegisterView<IRemindAddingView, RemindAdding>()
+                .RegisterService<ILoginService, LoginModel>()
+                .RegisterService<IEventAddingModel, EventAddingModel>()
+                .RegisterService<IRemindAddingModel, RemindAddingModel>()
+                .RegisterInstance(new ApplicationContext());
+            Controller.Run<PresenterLibrary.LoginPresenter>();
         }
     }
 }

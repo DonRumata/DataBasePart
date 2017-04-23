@@ -15,10 +15,10 @@ namespace ModelMVPDataBasePart
     using System.Data.Entity.Core.Objects;
     using System.Linq;
     
-    public partial class ArcheageDataBaseEntities : DbContext
+    public partial class ArchBaseEntity : DbContext
     {
-        public ArcheageDataBaseEntities()
-            : base("name=ArcheageDataBaseEntities")
+        public ArchBaseEntity(string InLog, string InPass)
+            : base("Data Source = DESKTOP - I53NOBN; Initial Catalog = ArcheageDataBase; Integrated Security = True; Persist Security Info=True;User ID = " + InLog + "; Password=" + InPass + ";")
         {
         }
     
@@ -28,6 +28,7 @@ namespace ModelMVPDataBasePart
         }
     
         public virtual DbSet<EventBase> EventBase { get; set; }
+        public virtual DbSet<EventRemindTable> EventRemindTable { get; set; }
         public virtual DbSet<EventTimeTable> EventTimeTable { get; set; }
     
         public virtual int CheckUser(ObjectParameter inResulter, string inName, string inPass)
@@ -43,9 +44,9 @@ namespace ModelMVPDataBasePart
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CheckUser", inResulter, inNameParameter, inPassParameter);
         }
     
-        public virtual ObjectResult<Nullable<int>> GetNowUserID()
+        public virtual int GetNowUserID()
         {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("GetNowUserID");
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GetNowUserID");
         }
     }
 }

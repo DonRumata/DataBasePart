@@ -12,6 +12,18 @@
           <Property Name="EventID" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="EventName" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="EventRemindTable">
+          <Key>
+            <PropertyRef Name="RemindBeforeAfter" />
+            <PropertyRef Name="EventID" />
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="RemindBeforeAfter" Type="time" Precision="0" Nullable="false" />
+          <Property Name="TypeOfRemind" Type="numeric" Precision="1" Scale="0" />
+          <Property Name="DateUntilRemind" Type="smalldatetime" />
+          <Property Name="EventID" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="UserID" Type="smallint" Nullable="false" />
+        </EntityType>
         <EntityType Name="EventTimeTable">
           <Key>
             <PropertyRef Name="EventID" />
@@ -20,13 +32,24 @@
           </Key>
           <Property Name="EventID" Type="numeric" Precision="18" Scale="0" Nullable="false" />
           <Property Name="EventDateTime" Type="smalldatetime" Nullable="false" />
-          <Property Name="HowLongToRemind" Type="numeric" Precision="10" Scale="0" />
-          <Property Name="RemindBefore" Type="time" Precision="0" />
-          <Property Name="TypeOfRemind" Type="numeric" Precision="3" Scale="0" />
           <Property Name="UserID" Type="smallint" Nullable="false" />
           <Property Name="EventDuration" Type="time" Precision="0" />
           <Property Name="EverywhatRemind" Type="numeric" Precision="1" Scale="0" />
         </EntityType>
+        <Association Name="FK_EventRemindTable_EventBase">
+          <End Role="EventBase" Type="Self.EventBase" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="EventRemindTable" Type="Self.EventRemindTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EventBase">
+              <PropertyRef Name="EventID" />
+            </Principal>
+            <Dependent Role="EventRemindTable">
+              <PropertyRef Name="EventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_EventTimeTable_EventBase">
           <End Role="EventBase" Type="Self.EventBase" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -46,11 +69,15 @@
           <Parameter Name="InName" Type="nvarchar" Mode="In" />
           <Parameter Name="InPass" Type="nvarchar" Mode="In" />
         </Function>
-        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
         <Function Name="GetNowUserID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="Хранилище ArcheageDataBaseModelContainer">
           <EntitySet Name="EventBase" EntityType="Self.EventBase" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EventRemindTable" EntityType="Self.EventRemindTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EventTimeTable" EntityType="Self.EventTimeTable" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_EventRemindTable_EventBase" Association="Self.FK_EventRemindTable_EventBase">
+            <End Role="EventBase" EntitySet="EventBase" />
+            <End Role="EventRemindTable" EntitySet="EventRemindTable" />
+          </AssociationSet>
           <AssociationSet Name="FK_EventTimeTable_EventBase" Association="Self.FK_EventTimeTable_EventBase">
             <End Role="EventBase" EntitySet="EventBase" />
             <End Role="EventTimeTable" EntitySet="EventTimeTable" />
@@ -67,7 +94,21 @@
           </Key>
           <Property Name="EventID" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="EventName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="EventRemindTable" Relationship="Self.FK_EventRemindTable_EventBase" FromRole="EventBase" ToRole="EventRemindTable" />
           <NavigationProperty Name="EventTimeTable" Relationship="Self.FK_EventTimeTable_EventBase" FromRole="EventBase" ToRole="EventTimeTable" />
+        </EntityType>
+        <EntityType Name="EventRemindTable">
+          <Key>
+            <PropertyRef Name="RemindBeforeAfter" />
+            <PropertyRef Name="EventID" />
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="RemindBeforeAfter" Type="Time" Nullable="false" Precision="0" />
+          <Property Name="TypeOfRemind" Type="Decimal" Precision="1" Scale="0" />
+          <Property Name="DateUntilRemind" Type="DateTime" Precision="0" />
+          <Property Name="EventID" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="UserID" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="EventBase" Relationship="Self.FK_EventRemindTable_EventBase" FromRole="EventRemindTable" ToRole="EventBase" />
         </EntityType>
         <EntityType Name="EventTimeTable">
           <Key>
@@ -77,14 +118,25 @@
           </Key>
           <Property Name="EventID" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="EventDateTime" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="HowLongToRemind" Type="Decimal" Precision="10" Scale="0" />
-          <Property Name="RemindBefore" Type="Time" Precision="0" />
-          <Property Name="TypeOfRemind" Type="Decimal" Precision="3" Scale="0" />
           <Property Name="UserID" Type="Int16" Nullable="false" />
           <Property Name="EventDuration" Type="Time" Precision="0" />
           <Property Name="EverywhatRemind" Type="Decimal" Precision="1" Scale="0" />
           <NavigationProperty Name="EventBase" Relationship="Self.FK_EventTimeTable_EventBase" FromRole="EventTimeTable" ToRole="EventBase" />
         </EntityType>
+        <Association Name="FK_EventRemindTable_EventBase">
+          <End Role="EventBase" Type="Self.EventBase" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="EventRemindTable" Type="Self.EventRemindTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EventBase">
+              <PropertyRef Name="EventID" />
+            </Principal>
+            <Dependent Role="EventRemindTable">
+              <PropertyRef Name="EventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_EventTimeTable_EventBase">
           <End Role="EventBase" Type="Self.EventBase" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -99,9 +151,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="ArcheageDataBaseEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="ArchBaseEntity" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="EventBase" EntityType="Self.EventBase" />
+          <EntitySet Name="EventRemindTable" EntityType="Self.EventRemindTable" />
           <EntitySet Name="EventTimeTable" EntityType="Self.EventTimeTable" />
+          <AssociationSet Name="FK_EventRemindTable_EventBase" Association="Self.FK_EventRemindTable_EventBase">
+            <End Role="EventBase" EntitySet="EventBase" />
+            <End Role="EventRemindTable" EntitySet="EventRemindTable" />
+          </AssociationSet>
           <AssociationSet Name="FK_EventTimeTable_EventBase" Association="Self.FK_EventTimeTable_EventBase">
             <End Role="EventBase" EntitySet="EventBase" />
             <End Role="EventTimeTable" EntitySet="EventTimeTable" />
@@ -111,14 +168,14 @@
             <Parameter Name="InName" Mode="In" Type="String" />
             <Parameter Name="InPass" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="GetNowUserID" ReturnType="Collection(Int32)" />
+          <FunctionImport Name="GetNowUserID" />
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Хранилище ArcheageDataBaseModelContainer" CdmEntityContainer="ArcheageDataBaseEntities">
+        <EntityContainerMapping StorageEntityContainer="Хранилище ArcheageDataBaseModelContainer" CdmEntityContainer="ArchBaseEntity">
           <EntitySetMapping Name="EventBase">
             <EntityTypeMapping TypeName="ArcheageDataBaseModel.EventBase">
               <MappingFragment StoreEntitySet="EventBase">
@@ -127,14 +184,22 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="EventRemindTable">
+            <EntityTypeMapping TypeName="ArcheageDataBaseModel.EventRemindTable">
+              <MappingFragment StoreEntitySet="EventRemindTable">
+                <ScalarProperty Name="RemindBeforeAfter" ColumnName="RemindBeforeAfter" />
+                <ScalarProperty Name="TypeOfRemind" ColumnName="TypeOfRemind" />
+                <ScalarProperty Name="DateUntilRemind" ColumnName="DateUntilRemind" />
+                <ScalarProperty Name="EventID" ColumnName="EventID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="EventTimeTable">
             <EntityTypeMapping TypeName="ArcheageDataBaseModel.EventTimeTable">
               <MappingFragment StoreEntitySet="EventTimeTable">
                 <ScalarProperty Name="EventID" ColumnName="EventID" />
                 <ScalarProperty Name="EventDateTime" ColumnName="EventDateTime" />
-                <ScalarProperty Name="HowLongToRemind" ColumnName="HowLongToRemind" />
-                <ScalarProperty Name="RemindBefore" ColumnName="RemindBefore" />
-                <ScalarProperty Name="TypeOfRemind" ColumnName="TypeOfRemind" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="EventDuration" ColumnName="EventDuration" />
                 <ScalarProperty Name="EverywhatRemind" ColumnName="EverywhatRemind" />

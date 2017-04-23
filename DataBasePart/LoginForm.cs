@@ -6,19 +6,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using PresenterLibrary.Views;
 
 namespace DataBasePart
 {
-    public interface ILoginForm
+    public partial class LoginForm : Form, ILoginView
     {
-        string Login { get; }
-        string Pass { get; }
-        event EventHandler LoginButtonClick;
-    }
+        private readonly ApplicationContext _context;
+        public new void Show()
+        {
+            _context.MainForm = this;
+            Application.Run(_context);
+        }
 
-    public partial class LoginForm : Form, ILoginForm
-    {
         #region IMainForm
+        #region Parameters
         public string Login
         {
             get { return LoginBox.Text; }
@@ -28,21 +30,23 @@ namespace DataBasePart
         {
             get { return PassBox.Text; }
         }
-
-        public event EventHandler LoginButtonClick;
+        #endregion
+        #region Events
+        public event Action LoginButtonClick;
+        #endregion
         #endregion
 
-        private void LoginButton_Click(object sender, EventArgs e)
+        
+        public LoginForm(ApplicationContext InContext)
         {
-            if (LoginButtonClick != null)
-                LoginButtonClick(this, EventArgs.Empty);
+            _context = InContext;
+            InitializeComponent();
+            LoginButton.Click += (sender, args) => Invoke(LoginButtonClick);
         }
 
-        
-        public LoginForm()
+        private void Invoke(Action action)
         {
-            InitializeComponent();
-            LoginButton.Click += new EventHandler(LoginButton_Click);
+            action?.Invoke();
         }
     }
 }

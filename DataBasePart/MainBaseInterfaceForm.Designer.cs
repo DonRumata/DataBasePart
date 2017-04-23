@@ -28,29 +28,48 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.добавитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.настройкаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.базаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.добавитьToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.AddingMenuStrip = new System.Windows.Forms.ToolStripMenuItem();
             this.EventAddMenuStrip = new System.Windows.Forms.ToolStripMenuItem();
             this.RemindAddMenuStrip = new System.Windows.Forms.ToolStripMenuItem();
             this.изменитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.удалитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.фильтрToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.button4 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
+            this.TabContainer = new System.Windows.Forms.TabControl();
+            this.MainViewTab = new System.Windows.Forms.TabPage();
+            this.MainViewGrid = new System.Windows.Forms.DataGridView();
+            this.archeageDataBaseDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.archeageDataBaseDataSet = new DataBasePart.ArcheageDataBaseDataSet();
+            this.EventViewTab = new System.Windows.Forms.TabPage();
+            this.EventViewGrid = new System.Windows.Forms.DataGridView();
+            this.ReminderViewTab = new System.Windows.Forms.TabPage();
+            this.mainBaseInterfaceFormBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.eventBaseBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.eventBaseTableAdapter = new DataBasePart.ArcheageDataBaseDataSetTableAdapters.EventBaseTableAdapter();
             this.menuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
+            this.TabContainer.SuspendLayout();
+            this.MainViewTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.MainViewGrid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.archeageDataBaseDataSetBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.archeageDataBaseDataSet)).BeginInit();
+            this.EventViewTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.EventViewGrid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mainBaseInterfaceFormBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.eventBaseBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -87,7 +106,7 @@
             // базаToolStripMenuItem
             // 
             this.базаToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.добавитьToolStripMenuItem1,
+            this.AddingMenuStrip,
             this.изменитьToolStripMenuItem,
             this.удалитьToolStripMenuItem,
             this.toolStripMenuItem1,
@@ -96,14 +115,14 @@
             this.базаToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.базаToolStripMenuItem.Text = "База";
             // 
-            // добавитьToolStripMenuItem1
+            // AddingMenuStrip
             // 
-            this.добавитьToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.AddingMenuStrip.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.EventAddMenuStrip,
             this.RemindAddMenuStrip});
-            this.добавитьToolStripMenuItem1.Name = "добавитьToolStripMenuItem1";
-            this.добавитьToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
-            this.добавитьToolStripMenuItem1.Text = "Добавить";
+            this.AddingMenuStrip.Name = "AddingMenuStrip";
+            this.AddingMenuStrip.Size = new System.Drawing.Size(152, 22);
+            this.AddingMenuStrip.Text = "Добавить";
             // 
             // EventAddMenuStrip
             // 
@@ -139,17 +158,6 @@
             this.фильтрToolStripMenuItem.Name = "фильтрToolStripMenuItem";
             this.фильтрToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.фильтрToolStripMenuItem.Text = "Фильтр";
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(13, 73);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.Size = new System.Drawing.Size(1012, 312);
-            this.dataGridView1.TabIndex = 1;
             // 
             // groupBox1
             // 
@@ -215,22 +223,120 @@
             this.button3.Text = "Удалить";
             this.button3.UseVisualStyleBackColor = true;
             // 
+            // TabContainer
+            // 
+            this.TabContainer.Controls.Add(this.MainViewTab);
+            this.TabContainer.Controls.Add(this.EventViewTab);
+            this.TabContainer.Controls.Add(this.ReminderViewTab);
+            this.TabContainer.Location = new System.Drawing.Point(13, 34);
+            this.TabContainer.Name = "TabContainer";
+            this.TabContainer.SelectedIndex = 0;
+            this.TabContainer.Size = new System.Drawing.Size(1012, 365);
+            this.TabContainer.TabIndex = 3;
+            // 
+            // MainViewTab
+            // 
+            this.MainViewTab.Controls.Add(this.MainViewGrid);
+            this.MainViewTab.Location = new System.Drawing.Point(4, 22);
+            this.MainViewTab.Name = "MainViewTab";
+            this.MainViewTab.Padding = new System.Windows.Forms.Padding(3);
+            this.MainViewTab.Size = new System.Drawing.Size(1004, 339);
+            this.MainViewTab.TabIndex = 1;
+            this.MainViewTab.Text = "Общий вид";
+            this.MainViewTab.UseVisualStyleBackColor = true;
+            // 
+            // MainViewGrid
+            // 
+            this.MainViewGrid.AllowUserToAddRows = false;
+            this.MainViewGrid.AllowUserToDeleteRows = false;
+            this.MainViewGrid.AutoGenerateColumns = false;
+            this.MainViewGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.MainViewGrid.DataSource = this.archeageDataBaseDataSetBindingSource;
+            this.MainViewGrid.Location = new System.Drawing.Point(0, 0);
+            this.MainViewGrid.Name = "MainViewGrid";
+            this.MainViewGrid.ReadOnly = true;
+            this.MainViewGrid.Size = new System.Drawing.Size(948, 336);
+            this.MainViewGrid.TabIndex = 0;
+            // 
+            // archeageDataBaseDataSetBindingSource
+            // 
+            this.archeageDataBaseDataSetBindingSource.DataSource = this.archeageDataBaseDataSet;
+            this.archeageDataBaseDataSetBindingSource.Position = 0;
+            // 
+            // archeageDataBaseDataSet
+            // 
+            this.archeageDataBaseDataSet.DataSetName = "ArcheageDataBaseDataSet";
+            this.archeageDataBaseDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // EventViewTab
+            // 
+            this.EventViewTab.Controls.Add(this.EventViewGrid);
+            this.EventViewTab.Location = new System.Drawing.Point(4, 22);
+            this.EventViewTab.Name = "EventViewTab";
+            this.EventViewTab.Padding = new System.Windows.Forms.Padding(3);
+            this.EventViewTab.Size = new System.Drawing.Size(1004, 339);
+            this.EventViewTab.TabIndex = 2;
+            this.EventViewTab.Text = "События";
+            this.EventViewTab.UseVisualStyleBackColor = true;
+            // 
+            // EventViewGrid
+            // 
+            this.EventViewGrid.AllowUserToAddRows = false;
+            this.EventViewGrid.AllowUserToDeleteRows = false;
+            this.EventViewGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.EventViewGrid.Location = new System.Drawing.Point(7, 7);
+            this.EventViewGrid.Name = "EventViewGrid";
+            this.EventViewGrid.ReadOnly = true;
+            this.EventViewGrid.Size = new System.Drawing.Size(883, 315);
+            this.EventViewGrid.TabIndex = 0;
+            // 
+            // ReminderViewTab
+            // 
+            this.ReminderViewTab.Location = new System.Drawing.Point(4, 22);
+            this.ReminderViewTab.Name = "ReminderViewTab";
+            this.ReminderViewTab.Size = new System.Drawing.Size(1004, 339);
+            this.ReminderViewTab.TabIndex = 3;
+            this.ReminderViewTab.Text = "Напоминания";
+            this.ReminderViewTab.UseVisualStyleBackColor = true;
+            // 
+            // mainBaseInterfaceFormBindingSource
+            // 
+            this.mainBaseInterfaceFormBindingSource.DataSource = typeof(DataBasePart.MainBaseInterfaceForm);
+            // 
+            // eventBaseBindingSource
+            // 
+            this.eventBaseBindingSource.DataMember = "EventBase";
+            this.eventBaseBindingSource.DataSource = this.archeageDataBaseDataSetBindingSource;
+            // 
+            // eventBaseTableAdapter
+            // 
+            this.eventBaseTableAdapter.ClearBeforeFill = true;
+            // 
             // MainBaseInterfaceForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1037, 550);
+            this.Controls.Add(this.TabContainer);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainBaseInterfaceForm";
             this.Text = "MainBaseInterfaceForm";
+            this.Load += new System.EventHandler(this.MainBaseInterfaceForm_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
+            this.TabContainer.ResumeLayout(false);
+            this.MainViewTab.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.MainViewGrid)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.archeageDataBaseDataSetBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.archeageDataBaseDataSet)).EndInit();
+            this.EventViewTab.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.EventViewGrid)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mainBaseInterfaceFormBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.eventBaseBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -243,12 +349,11 @@
         private System.Windows.Forms.ToolStripMenuItem добавитьToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem настройкаToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem базаToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem добавитьToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem AddingMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem изменитьToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem удалитьToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem фильтрToolStripMenuItem;
-        private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Button button4;
@@ -257,5 +362,16 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.ToolStripMenuItem EventAddMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem RemindAddMenuStrip;
+        private System.Windows.Forms.TabControl TabContainer;
+        private System.Windows.Forms.TabPage MainViewTab;
+        private System.Windows.Forms.DataGridView MainViewGrid;
+        private System.Windows.Forms.TabPage EventViewTab;
+        private System.Windows.Forms.DataGridView EventViewGrid;
+        private System.Windows.Forms.TabPage ReminderViewTab;
+        private System.Windows.Forms.BindingSource archeageDataBaseDataSetBindingSource;
+        private ArcheageDataBaseDataSet archeageDataBaseDataSet;
+        private System.Windows.Forms.BindingSource mainBaseInterfaceFormBindingSource;
+        private System.Windows.Forms.BindingSource eventBaseBindingSource;
+        private ArcheageDataBaseDataSetTableAdapters.EventBaseTableAdapter eventBaseTableAdapter;
     }
 }

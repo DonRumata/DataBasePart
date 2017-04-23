@@ -8,127 +8,179 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Globalization;
+using PresenterLibrary.Views;
 
 namespace DataBasePart
 {
-    public interface IEventAddingView
+    public partial class EventAddingForm : Form,IAddingEventView
     {
-        string NameBox { get; }
-        int Which_type_of_remind { get; set; }
-        DateTime EventTimeHap { get; set; }
-        List<ListViewItem> ListViewItemsList { set; }
+        public const string CMaskFormat = "dd:hh:mm";
+        public const string CMaskDurationFormat = "hh:mm";
 
-        event EventHandler RadioButtonChange;
-        event EventHandler AddTimeClick;
-        event EventHandler<IEnumerable<int>> RemoveTimeClick;
-        event EventHandler SaveAndQuitClick;
-        event EventHandler BackClick;
-        event EventHandler AddReminderClick;
-    }
-
-    public partial class EventAddingForm : Form,IEventAddingView
-    {
-        public const string MaskFormat = "dd:hh:mm";
-        private bool FirstOneChecked;
+        private readonly ApplicationContext _context;
+        private bool FirstOneChecked = false;
 
         #region IEventAddingView
         #region Parameters
-        public string NameBox
+        public string Namebox
         {
             get { return EventNameBox.Text; }
+            set { EventNameBox.Text = value; }
         }
-        public int Which_type_of_remind
+
+        public EventRepeatRadioValues WhichTypeOfRemind
         {
-            get { return Which_type_of_remind; }
-            set { Which_type_of_remind = value; }
-        }
-        public DateTime EventTimeHap
-        {
-            get { return EventTimeHap; }
-            private set
+            get
             {
-                EventTimeHap = value;
-            }
-        }
-        #endregion
-
-        #region EventHandlers
-        public event EventHandler AddTimeClick;
-        public event EventHandler<IEnumerable<int>> RemoveTimeClick;
-        public event EventHandler SaveAndQuitClick;
-        #endregion
-
-
-        public EventAddingForm()
-        {
-            InitializeComponent();
-        }
-
-        private void AddTimeButton_Click(object sender, EventArgs e)
-        {
-            DateTime EventTime;
-            if (FirstOneChecked)
-            {
-                TimeSpan Addable;
-                if (TimeSpan.TryParseExact(BeforeEventMask.Text, MaskFormat, CultureInfo.CurrentUICulture, out Addable))
-                {
-                    TimeListView.Items.Add(new ListViewItem(new string[] { DateTime.Now.Add(Addable).ToString(MaskFormat), RadioCheckedInToTextValue() }));
-                }
-                    
+                if (RadioWithoutRepeat.Checked)
+                    return EventRepeatRadioValues.WithoutRepeat;
+                else if (RadioEveryday.Checked)
+                    return EventRepeatRadioValues.EverydayRepeat;
+                else if (RadioEveryweek.Checked)
+                    return EventRepeatRadioValues.EveryweekRepeat;
+                else if (RadioEverymonth.Checked)
+                    return EventRepeatRadioValues.EverymonthRepeat;
                 else
-                    EventTime = new DateTime(0, 0, 0);
+                    return EventRepeatRadioValues.Err;
             }
-            else
+            set
             {
-                TimeListView.Items.Add(new ListViewItem(new string[] { DateTimeHappens.Value.ToString(MaskFormat), RadioCheckedInToTextValue() }));
+                switch(value)
+                {
+                    case EventRepeatRadioValues.WithoutRepeat: RadioWithoutRepeat.Checked = true; break;
+                    case EventRepeatRadioValues.EverydayRepeat:RadioEveryday.Checked = true;break;
+                    case EventRepeatRadioValues.EveryweekRepeat:RadioEveryweek.Checked = true;break;
+                    case EventRepeatRadioValues.EverymonthRepeat:RadioEverymonth.Checked = true;break;
+                }
             }
-            EventTimeHap = EventTime;
-            AddTimeClick(this, EventArgs.Empty);
         }
 
-        private void RemoveTimeButton_Click(object sender, EventArgs e)
+        public DateTime EventHappen
         {
-            //TODO
-            RemoveTimeClick(this, TimeListView.SelectedIndices.Cast<int>());
-            foreach (ListViewItem T in TimeListView.SelectedItems)
+            get
             {
-                TimeListView.Items.Remove(T);
+                if (FirstOneChecked)
+                    return DateTime.Now.Add(TimeSpan.ParseExact(BeforeEventMask.Text, MaskFormat, CultureInfo.CurrentUICulture));
+                else
+                    return new DateTime(DateTimeHappens.Value.Year,
+                        DateTimeHappens.Value.Month,
+                        DateTimeHappens.Value.Day,
+                        DateTimeHappensT.Value.Hour,
+                        DateTimeHappensT.Value.Minute,
+                        DateTimeHappensT.Value.Second);
+            }
+            set { }
+        }
+        public DateTime? EventDuration
+        {
+            get { return DateTime.ParseExact(EventDurationMask.Text, MaskDurationFormat, CultureInfo.CurrentUICulture, DateTimeStyles.None); }
+            set
+            {
+                if (value.HasValue)
+                    EventDurationMask.Text = value.Value.ToString(CMaskDurationFormat);
+                else
+                    EventDurationMask.Text = null;
             }
         }
 
-        private void SaveAndQuit_Click(object sender, EventArgs e)
+        public ListView.ListViewItemCollection ListViewItems
         {
-
+            get { return TimeListView.Items; }
+            set
+            {
+                TimeListView.Items.Clear();
+                TimeListView.Items.AddRange(value);
+            }
         }
 
-        private void BackButton_Click(object sender, EventArgs e)
+        public string MaskFormat
         {
-            ClearForm();
-            this.Close();
+            get { return CMaskFormat; }
+        }
+        public string MaskDurationFormat
+        {
+            get { return CMaskDurationFormat; }
         }
         #endregion
 
-        private void ClearForm()
-        {
-            EventNameBox.Text = "";
+        #region Events
+        public event EventHandler AddItemToViewStruct;
+        public event Action<IEnumerable<int>> RemoveRangeFromViewStruct;
+        public event EventHandler SaveAndQuit;
+        public event EventHandler SaveAndAddRemind;
+        #endregion
 
+        /*Конструктор, инициализирует компоненты и связывает соыбтия с интерфейсом*/
+        public EventAddingForm(ApplicationContext context)
+        {
+            _context = context;
+            InitializeComponent();
+            AddTimeButton.Click += (setnder, args) => Invoke(AddItemToViewStruct);
+            RemoveTimeButton.Click += (sender,args) => Invoke(RemoveRangeFromViewStruct, TimeListView.SelectedIndices.Cast<int>());
+            SaveAndQuitButton.Click += (sender, args) => Invoke(SaveAndQuit);
         }
 
-        private string RadioCheckedInToTextValue()
+        /*Метод, добавляет значение в TimeListView список*/
+        public void AdditemToView(ListViewItem InItem)
         {
-            switch(Which_type_of_remind)
+            TimeListView.Items.Add(InItem);
+        }
+
+        /*Метод, удаляет выделенные пользователем значения из TimeListView списка*/
+        public void RemoveSelectedItemsFromView()
+        {
+            foreach (ListViewItem IT in TimeListView.SelectedItems)
             {
-                case 1: return "Без повторений";
-                case 2: return "Ежедневно";
-                case 3: return "Еженедельно";
-                case 4: return "Ежемесячно";
+                TimeListView.Items.Remove(IT);
             }
-            return "";
+            if (TimeListView.Items.Count == 0)
+                Remove_Button_Enabler(false);
         }
+        #endregion
 
+        /*Обработчик события, меняет включение/отключение элементов формы при переключении "осталось до события", "событие произойдет в"*/
         private void RadioButtonChange(object sender, EventArgs e)
         {
+            switch((sender as RadioButton).TabIndex)
+            {
+                case 1:
+                    BeforeEventMask.Enabled = true;
+                    DateTimeHappens.Enabled = false;
+                    DateTimeHappensT.Enabled = false;
+                    FirstOneChecked = true;
+                    break;
+                case 4:
+                    BeforeEventMask.Enabled = false;
+                    DateTimeHappens.Enabled = true;
+                    DateTimeHappensT.Enabled = true;
+                    FirstOneChecked = false;
+                    break;
+            }
+        }
 
+        private void EventDurationCheckBoxChange(object sender, EventArgs e)
+        {
+            EventDurationMask.Enabled = !EventDurationMask.Enabled;
+        }
+
+        private void Invoke(Action action)
+        {
+            action?.Invoke();
+        }
+
+        private void Invoke<TArg>(Action<TArg> action, TArg arg)
+        {
+            action?.Invoke(arg);
+        }
+
+        public new void Show()
+        {
+            base.ShowDialog();
+        }
+
+        public void Remove_Button_Enabler(bool value)
+        {
+            RemoveTimeButton.Enabled = true;
         }
     }
 }

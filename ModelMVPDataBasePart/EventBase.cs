@@ -17,12 +17,15 @@ namespace ModelMVPDataBasePart
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public EventBase()
         {
+            this.EventRemindTable = new HashSet<EventRemindTable>();
             this.EventTimeTable = new HashSet<EventTimeTable>();
         }
     
         public decimal EventID { get; set; }
         public string EventName { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EventRemindTable> EventRemindTable { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EventTimeTable> EventTimeTable { get; set; }
     }

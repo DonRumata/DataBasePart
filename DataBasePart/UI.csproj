@@ -48,6 +48,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="LightInject, Version=5.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\LightInject.5.0.2\lib\net46\LightInject.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Windows.Forms.DataVisualization" />
@@ -62,6 +66,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArcheageDataBaseDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ArcheageDataBaseDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Common\ComboReadonlyDictionary.cs" />
+    <Compile Include="Common\ReadOnlyDictionary.cs" />
     <Compile Include="EventAddingForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -74,6 +85,7 @@
     <Compile Include="EventReminderAddingForm.Designer.cs">
       <DependentUpon>EventReminderAddingForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="LightInjectAdapter.cs" />
     <Compile Include="LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -88,6 +100,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RemindAdding.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RemindAdding.Designer.cs">
+      <DependentUpon>RemindAdding.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="EventAddingForm.resx">
       <DependentUpon>EventAddingForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -109,6 +127,21 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="RemindAdding.resx">
+      <DependentUpon>RemindAdding.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="ArcheageDataBaseDataSet.xsc">
+      <DependentUpon>ArcheageDataBaseDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="ArcheageDataBaseDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ArcheageDataBaseDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="ArcheageDataBaseDataSet.xss">
+      <DependentUpon>ArcheageDataBaseDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="packages.config" />
     <None Include="Properties\DataSources\MainBaseInterfaceForm.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -129,6 +162,16 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ModelMVPDataBasePart\Model.csproj">
+      <Project>{6539f1e3-d4ef-4c38-bd73-2ebd48a36f4f}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PresenterLibrary\Presentation.csproj">
+      <Project>{2c3e6c39-8363-4482-b160-3401a1c83059}</Project>
+      <Name>Presentation</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
