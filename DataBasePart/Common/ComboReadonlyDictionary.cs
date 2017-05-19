@@ -12,6 +12,7 @@ namespace DataBasePart.Common
 
         public ComboReadonlyDictionary(byte SetBaseDictionary)
         {
+            SourceDictionary = new Dictionary<string, TimeSpan>();
             switch(SetBaseDictionary)
             {
                 case 0:

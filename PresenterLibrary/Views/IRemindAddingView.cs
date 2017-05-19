@@ -17,9 +17,12 @@ namespace PresenterLibrary.Views
         event EventHandler AddRemind;
         event Action<int> DeleteRemind;
         event EventHandler Back;
+        event Action<int> PanelConfirm;
+        event EventHandler PanelBack;
 
         void AdditemToReminders(DateTime RemindDate);
         void RemoveSelectedItem_From_RemindersList(int RemoveIndex);
         void FirstPanelInitialization(int WhichOne, string[] ComboElementsIn = null);
+        //void SetTimersList(string El, List<ModelMVPDataBasePart.EventTimeTable> BindList);
     }
 }

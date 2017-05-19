@@ -22,15 +22,16 @@ namespace DataBasePart
         public RemindAdding()
         {
             InitializeComponent();
-            RemindBeforeCombo.DataSource = new BindingSource(BeforeDictionary,null);
-            RemindBeforeCombo.DisplayMember = "Key";
-            RemindBeforeCombo.ValueMember = "Value";
-            RemindAfterCombo.DataSource = new BindingSource(AfterDictionary, null);
-            RemindAfterCombo.DisplayMember = "Key";
-            RemindAfterCombo.ValueMember = "Value";
+            //RemindBeforeCombo.DataSource = new BindingSource(BeforeDictionary,null);
+            //RemindBeforeCombo.DisplayMember = "Key";
+            //RemindBeforeCombo.ValueMember = "Value";
+            //RemindAfterCombo.DataSource = new BindingSource(AfterDictionary, null);
+            //RemindAfterCombo.DisplayMember = "Key";
+            //RemindAfterCombo.ValueMember = "Value";
             AddRemindButton.Click += (sender, args) => Invoke(AddRemind);
             DeleteRemindButton.Click += (sender, args) => Invoke<int>(DeleteRemind, RemindListBox.SelectedIndex);
-            
+            PanelConfirmButton.Click += (sender, args) => Invoke<int>(PanelConfirm, ComboEventNames.SelectedIndex);
+            PanelBackButton.Click += (sender, args) => Invoke(Back);
         }
         #region IRemindAddingView Realization
         #region Parameters
@@ -93,7 +94,12 @@ namespace DataBasePart
 
         public int SelectedValue
         {
-            get { return TimersListView.SelectedIndices[0]; }
+            get { return TimersListBox.SelectedIndex; }
+        }
+
+        public int SelectedPanelValue
+        {
+            get { return ComboEventNames.SelectedIndex; }
         }
         #endregion
 
@@ -102,6 +108,8 @@ namespace DataBasePart
         public event EventHandler AddRemind;
         public event EventHandler Back;
         public event Action<int> DeleteRemind;
+        public event Action<int> PanelConfirm;
+        public event EventHandler PanelBack;
         #endregion
 
         #region Functions
@@ -122,11 +130,21 @@ namespace DataBasePart
             {
                 case 0:
                     panel1.Visible = true;
+                    panel1.Left = this.Left;
+                    panel1.Top = this.Top;
+                    panel1.Height = this.Height;
+                    panel1.Width = this.Width;
                     ComboEventNames.Items.Clear();
                     ComboEventNames.Items.AddRange(ComboElementsIn);
                     break;
             }
         }
+
+        public void SetTimersList(string El)
+        {
+
+        }
+
         #endregion
         #endregion
 

@@ -18,11 +18,19 @@ namespace ModelMVPDataBasePart
     {
         bool CreateConnection(string Login, string Pass, byte TypeOfConnection);
         bool TestConnection();
+
+    }
+
+    public interface IMainFormData:IDataConnection
+    {
+        object GetBaseView();
     }
 
     public interface IDataRemindAdding:IDataConnection
     {
         bool AddRemindsFromRemindCreator(List<RemindDataCreator> InList, int EventID);
+        string[] GetEventNamesArray();
+        List<EventTimeTable> GetItemsForFormInitialize(int InID);
     }
 
     public interface IDataEventAdding:IDataConnection
@@ -38,11 +46,13 @@ namespace ModelMVPDataBasePart
 
     public abstract class BaseDBClass
     {
-        public static ArchBaseEntity DataBaseECont { get; protected set; }
+        public static ArchEntityFramework DataBaseECont { get; protected set; }
+        
     }
 
-    public class DataBaseOperationClass:BaseDBClass,IDataEventAdding,IDataRemindAdding,IDataMainMenuFunctional
+    public class DataBaseOperationClass:BaseDBClass,IDataEventAdding,IDataRemindAdding,IDataMainMenuFunctional,IMainFormData
     {
+        private int NowUserID;
         //private Func<ArcheageDataBaseEntities, string, DateTime, bool> ContainsData = CompiledQuery.Compile<ArcheageDataBaseEntities,string, DateTime, bool>((MyB, InName, InData) => (MyB.EventTimeTable.Any(n => (n.EventBase.EventName == InName && n.EventDateTime == InData))));
         //private Func<ArcheageDataBaseEntities, string, IEnumerable<EventDateCreator>, bool> Compl = CompiledQuery.Compile<ArcheageDataBaseEntities, string, IEnumerable<EventDateCreator>, IEnumerable<bool>>((Myb, InName, InEnum) => (Myb.EventTimeTable.Any(n => (n.EventBase.EventName == InName && n.EventDateTime == InEnum.First().EventDate))) );
         public DataBaseOperationClass()
@@ -52,14 +62,14 @@ namespace ModelMVPDataBasePart
         #region IDataConnection Implementation
         public bool CreateConnection(string Login, string Pass, byte TypeOfConnection)
         {
-            DataBaseECont = new ArchBaseEntity(Login, Pass);
+            DataBaseECont = new ArchEntityFramework();
             switch (TypeOfConnection)
             {
                 case 1:
-                    DataBaseECont.Database.Connection.ConnectionString = "Server=95.31.27.196,6702\\SQL Server;Initial Catalog=ArcheageDataBase;User ID=" + Login + ";Password=" + Pass + ";";
+                    //DataBaseECont.Database.Connection.ConnectionString = "Server=95.31.27.196,6702\\SQL Server;Initial Catalog=ArcheageDataBase;User ID=" + Login + ";Password=" + Pass + ";";
                     break;
                 case 2:
-                    DataBaseECont.Database.Connection.ConnectionString = "Data Source=DESKTOP-I53NOBN;Initial Catalog=ArcheageDataBase;Integrated Security=True;Persist Security Info=True;User ID=" + Login + ";Password=" + Pass + ";";
+                    //DataBaseECont.Database.Connection.ConnectionString = "Data Source=localhost;Initial Catalog=ArcheageDataBase;Integrated Security=True;Persist Security Info=True;User ID=" + Login + ";Password=" + Pass + ";";
                     break;
             }
             if (TestConnection())
@@ -72,13 +82,17 @@ namespace ModelMVPDataBasePart
 
         public bool TestConnection()
         {
-            try
+            if(DataBaseECont.Database.Exists())
             {
-                DataBaseECont.Database.Connection.Open();
-                DataBaseECont.Database.Connection.Close();
-                return true;
+                try
+                {
+                    DataBaseECont.Database.Connection.Open();
+                    DataBaseECont.Database.Connection.Close();
+                    return true;
+                }
+                catch { return false; }
             }
-            catch { return false; }
+            return false;
         }
 
         #endregion
@@ -152,14 +166,45 @@ namespace ModelMVPDataBasePart
             }
             catch { return false; }
         }
+
+        public string[] GetEventNamesArray()
+        {
+            int temp = DataBaseECont.GetNowUserID();
+            return DataBaseECont.EventTimeTable.Where(W => (W.UserID ==0 || W.UserID==temp))
+                .Select(P => P.EventBase.EventName)
+                .Distinct()
+                .ToArray();
+        }
+
+        public List<EventTimeTable> GetItemsForFormInitialize(int InID)
+        {
+            return DataBaseECont.EventTimeTable.Where(W => (W.EventID == InID && W.UserID == NowUserID))
+                .ToList();
+
+        }
+
         #endregion
 
         #region IDataMainMenuFunctional Implementation
 
-        public IEnumerable<EventDataCreator> SelectAllAsDataCreator()
+        public IEnumerable<EventDataCreator> SelectAllAsDataCreator()  //TODO
         {
             IEnumerable<EventTimeTable> TempDataSelector;
+            return new List<EventDataCreator>();
 
+        }
+        #endregion
+
+        #region IMainData Implementation
+        public object GetBaseView()
+        {
+            var t=DataBaseECont.GetViewForNowUser().ToList();
+            List<MainViewShowClass> ReturnList = new List<MainViewShowClass>();
+            foreach (var el in t)
+            {
+                ReturnList.Add(new MainViewShowClass(el));
+            }
+            return ReturnList;
         }
         #endregion
         public static void GetTypeOfConnection()

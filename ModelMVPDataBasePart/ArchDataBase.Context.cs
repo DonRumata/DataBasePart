@@ -15,10 +15,10 @@ namespace ModelMVPDataBasePart
     using System.Data.Entity.Core.Objects;
     using System.Linq;
     
-    public partial class ArchBaseEntity : DbContext
+    public partial class ArchEntityFramework : DbContext
     {
-        public ArchBaseEntity(string InLog, string InPass)
-            : base("Data Source = DESKTOP - I53NOBN; Initial Catalog = ArcheageDataBase; Integrated Security = True; Persist Security Info=True;User ID = " + InLog + "; Password=" + InPass + ";")
+        public ArchEntityFramework()
+            : base("name=ArchConName")
         {
         }
     
@@ -30,6 +30,8 @@ namespace ModelMVPDataBasePart
         public virtual DbSet<EventBase> EventBase { get; set; }
         public virtual DbSet<EventRemindTable> EventRemindTable { get; set; }
         public virtual DbSet<EventTimeTable> EventTimeTable { get; set; }
+        public virtual DbSet<UserDataTable> UserDataTable { get; set; }
+        public virtual DbSet<BaseInfoView> BaseInfoView { get; set; }
     
         public virtual int CheckUser(ObjectParameter inResulter, string inName, string inPass)
         {
@@ -47,6 +49,16 @@ namespace ModelMVPDataBasePart
         public virtual int GetNowUserID()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GetNowUserID");
+        }
+    
+        public virtual ObjectResult<GetViewForNowUser_Result1> GetViewForNowUser()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetViewForNowUser_Result1>("GetViewForNowUser");
+        }
+    
+        public virtual ObjectResult<string> GetAllUserEvents()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("GetAllUserEvents");
         }
     }
 }

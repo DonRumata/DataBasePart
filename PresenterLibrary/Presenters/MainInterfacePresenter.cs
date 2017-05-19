@@ -12,13 +12,19 @@ namespace PresenterLibrary.Presenters
 {
     class MainInterfacePresenter:BasePresenter<IMainView>
     {
-       // private readonly IMainIModel ModelInterface;
+        private readonly IMainIModel ModelInterface;
 
-        public MainInterfacePresenter(IApplicationController Controller, IMainView InView):base(Controller, InView)
+        public MainInterfacePresenter(IApplicationController Controller, IMainView InView, IMainIModel InModel):base(Controller, InView)
         {
-            //ModelInterface = InModel;
+            ModelInterface = InModel;
             ViewInterface.AddEventClick +=(sender,args)=>AddEvent_Click();
             ViewInterface.AddRemindClick += (sender, args) => AddRemind_Click();
+            ShowDataOnInterface();
+        }
+
+        public void ShowDataOnInterface()
+        {
+            ViewInterface.MainViewDataGridSet = ModelInterface.GetMainView(Controller.DBClass);
         }
 
         public void AddEvent_Click()
@@ -28,12 +34,12 @@ namespace PresenterLibrary.Presenters
 
         public void AddRemind_Click()
         {
-            Controller.Run<ReminderAddingPresenter>();
+            Controller.Run<ReminderAddingPresenter, ArgDepositer<int, string>>(new ArgDepositer<int, string>(0, ""));
         }
 
-        public new void Run()
-        {
-            ViewInterface.Show();
-        }
+        //public new void Run()
+        //{
+        //    ViewInterface.Show();
+        //}
     }
 }

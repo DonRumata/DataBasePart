@@ -27,6 +27,7 @@ namespace DataBasePart
                 .RegisterService<ILoginService, LoginModel>()
                 .RegisterService<IEventAddingModel, EventAddingModel>()
                 .RegisterService<IRemindAddingModel, RemindAddingModel>()
+                .RegisterService<IMainIModel, MainModel>()
                 .RegisterInstance(new ApplicationContext());
             Controller.Run<PresenterLibrary.LoginPresenter>();
         }

@@ -8,5 +8,6 @@ namespace ModelMVPDataBasePart.IModels
 {
     public interface IMainIModel
     {
+        object GetMainView(IMainFormData DBOperational);
     }
 }

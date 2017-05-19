@@ -20,6 +20,14 @@ namespace PresenterLibrary.Presenters
             ModelInterface = InModel;
             ViewInterface.AddRemind += (sender, args) => AddRemind();
             ViewInterface.DeleteRemind += (arg) => RemoveSelectRemind(arg);
+            ViewInterface.PanelConfirm += (arg) => PanelConfirm(arg);
+        }
+
+        public void PanelConfirm(int ConfirmIndex)
+        {
+            //var temp=ModelInterface.GetItemsForFormInitialize(Controller.DBClass, ConfirmIndex);
+            //ViewInterface.SetTimersList();
+            //temp[ViewInterface.SelectedValue].EventRemindTable
         }
 
         public void AddRemind()
@@ -42,7 +50,7 @@ namespace PresenterLibrary.Presenters
 
         public void RemoveSelectRemind(int arg)
         {
-            ModelInterface.RemoveItemFromListStrunct(arg);
+            ModelInterface.RemoveItemFromListStruct(arg);
             ViewInterface.RemoveSelectedItem_From_RemindersList(arg);
         }
 
@@ -51,7 +59,8 @@ namespace PresenterLibrary.Presenters
             switch(Arg.FirstDataHandler)
             {
                 case 0:
-                    ViewInterface.FirstPanelInitialization(Arg.FirstDataHandler,ModelInterface.)
+                    ViewInterface.FirstPanelInitialization(Arg.FirstDataHandler, ModelInterface.GetEventNames(Controller.DBClass));
+                    ViewInterface.Show();
                     break;
             }
         }

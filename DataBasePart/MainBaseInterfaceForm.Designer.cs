@@ -1,4 +1,6 @@
-﻿namespace DataBasePart
+﻿using ModelMVPDataBasePart;
+
+namespace DataBasePart
 {
     partial class MainBaseInterfaceForm
     {
@@ -28,7 +30,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.добавитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,26 +51,17 @@
             this.TabContainer = new System.Windows.Forms.TabControl();
             this.MainViewTab = new System.Windows.Forms.TabPage();
             this.MainViewGrid = new System.Windows.Forms.DataGridView();
-            this.archeageDataBaseDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.archeageDataBaseDataSet = new DataBasePart.ArcheageDataBaseDataSet();
             this.EventViewTab = new System.Windows.Forms.TabPage();
             this.EventViewGrid = new System.Windows.Forms.DataGridView();
             this.ReminderViewTab = new System.Windows.Forms.TabPage();
-            this.mainBaseInterfaceFormBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.eventBaseBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.eventBaseTableAdapter = new DataBasePart.ArcheageDataBaseDataSetTableAdapters.EventBaseTableAdapter();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.TabContainer.SuspendLayout();
             this.MainViewTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MainViewGrid)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.archeageDataBaseDataSetBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.archeageDataBaseDataSet)).BeginInit();
             this.EventViewTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.EventViewGrid)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.mainBaseInterfaceFormBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.eventBaseBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -121,7 +113,7 @@
             this.EventAddMenuStrip,
             this.RemindAddMenuStrip});
             this.AddingMenuStrip.Name = "AddingMenuStrip";
-            this.AddingMenuStrip.Size = new System.Drawing.Size(152, 22);
+            this.AddingMenuStrip.Size = new System.Drawing.Size(128, 22);
             this.AddingMenuStrip.Text = "Добавить";
             // 
             // EventAddMenuStrip
@@ -139,24 +131,24 @@
             // изменитьToolStripMenuItem
             // 
             this.изменитьToolStripMenuItem.Name = "изменитьToolStripMenuItem";
-            this.изменитьToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.изменитьToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.изменитьToolStripMenuItem.Text = "Изменить";
             // 
             // удалитьToolStripMenuItem
             // 
             this.удалитьToolStripMenuItem.Name = "удалитьToolStripMenuItem";
-            this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.удалитьToolStripMenuItem.Text = "Удалить";
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(125, 6);
             // 
             // фильтрToolStripMenuItem
             // 
             this.фильтрToolStripMenuItem.Name = "фильтрToolStripMenuItem";
-            this.фильтрToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.фильтрToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.фильтрToolStripMenuItem.Text = "Фильтр";
             // 
             // groupBox1
@@ -249,24 +241,12 @@
             // 
             this.MainViewGrid.AllowUserToAddRows = false;
             this.MainViewGrid.AllowUserToDeleteRows = false;
-            this.MainViewGrid.AutoGenerateColumns = false;
             this.MainViewGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.MainViewGrid.DataSource = this.archeageDataBaseDataSetBindingSource;
             this.MainViewGrid.Location = new System.Drawing.Point(0, 0);
             this.MainViewGrid.Name = "MainViewGrid";
             this.MainViewGrid.ReadOnly = true;
             this.MainViewGrid.Size = new System.Drawing.Size(948, 336);
             this.MainViewGrid.TabIndex = 0;
-            // 
-            // archeageDataBaseDataSetBindingSource
-            // 
-            this.archeageDataBaseDataSetBindingSource.DataSource = this.archeageDataBaseDataSet;
-            this.archeageDataBaseDataSetBindingSource.Position = 0;
-            // 
-            // archeageDataBaseDataSet
-            // 
-            this.archeageDataBaseDataSet.DataSetName = "ArcheageDataBaseDataSet";
-            this.archeageDataBaseDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // EventViewTab
             // 
@@ -299,19 +279,6 @@
             this.ReminderViewTab.Text = "Напоминания";
             this.ReminderViewTab.UseVisualStyleBackColor = true;
             // 
-            // mainBaseInterfaceFormBindingSource
-            // 
-            this.mainBaseInterfaceFormBindingSource.DataSource = typeof(DataBasePart.MainBaseInterfaceForm);
-            // 
-            // eventBaseBindingSource
-            // 
-            this.eventBaseBindingSource.DataMember = "EventBase";
-            this.eventBaseBindingSource.DataSource = this.archeageDataBaseDataSetBindingSource;
-            // 
-            // eventBaseTableAdapter
-            // 
-            this.eventBaseTableAdapter.ClearBeforeFill = true;
-            // 
             // MainBaseInterfaceForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -331,12 +298,8 @@
             this.TabContainer.ResumeLayout(false);
             this.MainViewTab.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.MainViewGrid)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.archeageDataBaseDataSetBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.archeageDataBaseDataSet)).EndInit();
             this.EventViewTab.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.EventViewGrid)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.mainBaseInterfaceFormBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.eventBaseBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -368,10 +331,5 @@
         private System.Windows.Forms.TabPage EventViewTab;
         private System.Windows.Forms.DataGridView EventViewGrid;
         private System.Windows.Forms.TabPage ReminderViewTab;
-        private System.Windows.Forms.BindingSource archeageDataBaseDataSetBindingSource;
-        private ArcheageDataBaseDataSet archeageDataBaseDataSet;
-        private System.Windows.Forms.BindingSource mainBaseInterfaceFormBindingSource;
-        private System.Windows.Forms.BindingSource eventBaseBindingSource;
-        private ArcheageDataBaseDataSetTableAdapters.EventBaseTableAdapter eventBaseTableAdapter;
     }
 }

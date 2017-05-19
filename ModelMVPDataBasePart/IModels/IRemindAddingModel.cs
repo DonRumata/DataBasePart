@@ -14,6 +14,7 @@ namespace ModelMVPDataBasePart.IModels
         void RemoveRangeFromListStruct(IEnumerable<int> ItemIndecies);
         bool CommitChangesToDB(IDataRemindAdding DBOperational, int EvID);
 
-        string[] GetEventNames();
+        string[] GetEventNames(IDataRemindAdding DBOperational);
+        List<EventTimeTable> GetItemsForFormInitialize(IDataRemindAdding DBOperational, int InID);
     }
 }

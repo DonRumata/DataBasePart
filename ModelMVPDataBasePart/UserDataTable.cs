@@ -12,23 +12,23 @@ namespace ModelMVPDataBasePart
     using System;
     using System.Collections.Generic;
     
-    public partial class EventTimeTable
+    public partial class UserDataTable
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public EventTimeTable()
+        public UserDataTable()
         {
-            this.EventRemindTable = new HashSet<EventRemindTable>();
+            this.EventTimeTable = new HashSet<EventTimeTable>();
         }
     
-        public decimal EventID { get; set; }
-        public System.DateTime EventDateTime { get; set; }
+        public decimal ID { get; set; }
+        public Nullable<decimal> UserGroup { get; set; }
+        public decimal NumOfEvents { get; set; }
         public short UserID { get; set; }
-        public Nullable<System.TimeSpan> EventDuration { get; set; }
-        public Nullable<decimal> EverywhatRemind { get; set; }
+        public string Name { get; set; }
+        public byte[] sid { get; set; }
+        public Nullable<short> status { get; set; }
     
-        public virtual EventBase EventBase { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EventRemindTable> EventRemindTable { get; set; }
-        public virtual UserDataTable UserDataTable { get; set; }
+        public virtual ICollection<EventTimeTable> EventTimeTable { get; set; }
     }
 }

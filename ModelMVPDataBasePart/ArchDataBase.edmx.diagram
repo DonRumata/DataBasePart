@@ -4,12 +4,15 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="a2460be0f91f4e8c8065c1048a908713" Name="Diagram1">
-        <EntityTypeShape EntityType="ArcheageDataBaseModel.EventBase" Width="1.5" PointX="0.75" PointY="2.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ArcheageDataBaseModel.EventRemindTable" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="ArcheageDataBaseModel.EventTimeTable" Width="1.5" PointX="3" PointY="4" IsExpanded="true" />
-        <AssociationConnector Association="ArcheageDataBaseModel.FK_EventRemindTable_EventBase" ManuallyRouted="false" />
+      <Diagram DiagramId="1b26cd410c604260b2ab4a01ccb84484" Name="Diagram1">
+        <EntityTypeShape EntityType="ArcheageDataBaseModel.EventBase" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ArcheageDataBaseModel.EventRemindTable" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="ArcheageDataBaseModel.EventTimeTable" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="ArcheageDataBaseModel.UserDataTable" Width="1.5" PointX="0.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ArcheageDataBaseModel.BaseInfoView" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
         <AssociationConnector Association="ArcheageDataBaseModel.FK_EventTimeTable_EventBase" ManuallyRouted="false" />
+        <AssociationConnector Association="ArcheageDataBaseModel.FK_EventRemindTable_EventTimeTable" ManuallyRouted="false" />
+        <AssociationConnector Association="ArcheageDataBaseModel.FK_EventTimeTable_UserDataTable" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

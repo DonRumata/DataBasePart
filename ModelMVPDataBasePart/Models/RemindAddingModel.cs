@@ -35,9 +35,16 @@ namespace ModelMVPDataBasePart.Models
             RemindViewStruct.RemoveAt(ItemIndex);
         }
 
-        public string[] GetEventNames()
+        public string[] GetEventNames(IDataRemindAdding DBOperational)
         {
-
+            return DBOperational.GetEventNamesArray();
         }
+
+        public List<EventTimeTable> GetItemsForFormInitialize(IDataRemindAdding DBOperational, int InID)
+        {
+            return DBOperational.GetItemsForFormInitialize(InID);
+        }
+
+
     }
 }

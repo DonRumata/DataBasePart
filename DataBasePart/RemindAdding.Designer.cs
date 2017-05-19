@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.TimersListView = new System.Windows.Forms.ListView();
+            this.components = new System.ComponentModel.Container();
             this.BackButton = new System.Windows.Forms.Button();
             this.RemindBeforeCombo = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -45,20 +45,14 @@
             this.SaveAndQuitButton = new System.Windows.Forms.Button();
             this.ComboEventNames = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.PanelBackButton = new System.Windows.Forms.Button();
+            this.PanelConfirmButton = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.TimersListBox = new System.Windows.Forms.ListBox();
+            this.mainBaseInterfaceFormBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mainBaseInterfaceFormBindingSource)).BeginInit();
             this.SuspendLayout();
-            // 
-            // TimersListView
-            // 
-            this.TimersListView.Location = new System.Drawing.Point(12, 12);
-            this.TimersListView.MultiSelect = false;
-            this.TimersListView.Name = "TimersListView";
-            this.TimersListView.Size = new System.Drawing.Size(230, 336);
-            this.TimersListView.TabIndex = 0;
-            this.TimersListView.UseCompatibleStateImageBehavior = false;
             // 
             // BackButton
             // 
@@ -202,40 +196,52 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(179, 38);
+            this.label1.Location = new System.Drawing.Point(179, 36);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(106, 13);
             this.label1.TabIndex = 1;
             this.label1.Text = "Выберите событие:";
             // 
-            // button1
+            // PanelBackButton
             // 
-            this.button1.Location = new System.Drawing.Point(103, 96);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(83, 23);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Назад";
-            this.button1.UseVisualStyleBackColor = true;
+            this.PanelBackButton.Location = new System.Drawing.Point(103, 96);
+            this.PanelBackButton.Name = "PanelBackButton";
+            this.PanelBackButton.Size = new System.Drawing.Size(83, 23);
+            this.PanelBackButton.TabIndex = 2;
+            this.PanelBackButton.Text = "Назад";
+            this.PanelBackButton.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // PanelConfirmButton
             // 
-            this.button2.Location = new System.Drawing.Point(277, 96);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(83, 23);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "Принять";
-            this.button2.UseVisualStyleBackColor = true;
+            this.PanelConfirmButton.Location = new System.Drawing.Point(277, 96);
+            this.PanelConfirmButton.Name = "PanelConfirmButton";
+            this.PanelConfirmButton.Size = new System.Drawing.Size(83, 23);
+            this.PanelConfirmButton.TabIndex = 3;
+            this.PanelConfirmButton.Text = "Принять";
+            this.PanelConfirmButton.UseVisualStyleBackColor = true;
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.button2);
-            this.panel1.Controls.Add(this.button1);
+            this.panel1.Controls.Add(this.PanelConfirmButton);
+            this.panel1.Controls.Add(this.PanelBackButton);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.ComboEventNames);
-            this.panel1.Location = new System.Drawing.Point(2, 3);
+            this.panel1.Location = new System.Drawing.Point(12, 179);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(521, 395);
+            this.panel1.Size = new System.Drawing.Size(528, 395);
             this.panel1.TabIndex = 17;
+            // 
+            // TimersListBox
+            // 
+            this.TimersListBox.FormattingEnabled = true;
+            this.TimersListBox.Location = new System.Drawing.Point(15, 19);
+            this.TimersListBox.Name = "TimersListBox";
+            this.TimersListBox.Size = new System.Drawing.Size(230, 329);
+            this.TimersListBox.TabIndex = 18;
+            // 
+            // mainBaseInterfaceFormBindingSource
+            // 
+            this.mainBaseInterfaceFormBindingSource.DataSource = typeof(DataBasePart.MainBaseInterfaceForm);
             // 
             // RemindAdding
             // 
@@ -243,6 +249,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(535, 399);
             this.Controls.Add(this.panel1);
+            this.Controls.Add(this.TimersListBox);
             this.Controls.Add(this.SaveAndQuitButton);
             this.Controls.Add(this.DeleteRemindButton);
             this.Controls.Add(this.RemindListBox);
@@ -257,19 +264,17 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.RemindBeforeCombo);
             this.Controls.Add(this.BackButton);
-            this.Controls.Add(this.TimersListView);
             this.Name = "RemindAdding";
             this.Text = "RemindAdding";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mainBaseInterfaceFormBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.ListView TimersListView;
         private System.Windows.Forms.Button BackButton;
         private System.Windows.Forms.ComboBox RemindBeforeCombo;
         private System.Windows.Forms.Label label2;
@@ -286,8 +291,10 @@
         private System.Windows.Forms.Button SaveAndQuitButton;
         private System.Windows.Forms.ComboBox ComboEventNames;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button PanelBackButton;
+        private System.Windows.Forms.Button PanelConfirmButton;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.ListBox TimersListBox;
+        private System.Windows.Forms.BindingSource mainBaseInterfaceFormBindingSource;
     }
 }
